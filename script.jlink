@@ -1,0 +1,7 @@
+ExitOnError 1
+r
+h
+loadfile "/Users/josephsender/Documents/MCUXpressoIDE_10.2.1/workspace/frdmkw41z_wireless_examples_smac_connectivity_test_freertos/Debug/frdmkw41z_wireless_examples_smac_connectivity_test_freertos.hex"
+qc
+
+qc
