@@ -466,13 +466,13 @@ void main_task(uint32_t param)
         //initialize Serial Manager
         SerialManager_Init();
 
-        LED_StartSerialFlash(LED1);
+        //LED_StartSerialFlash(LED1);
 
         gTaskEvent = OSA_EventCreate(TRUE);
         InitApp();
 
         /*Prints the Welcome screens in the terminal*/
-        PrintMenu(cu8Logo, mAppSer);
+        //PrintMenu(cu8Logo, mAppSer);
 
         connState = gConnIdleState_c;
         bIsInitialized = TRUE;
@@ -508,7 +508,7 @@ void main_task(uint32_t param)
         TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
 
     }
-    if(!bUserInteraction)
+/*    if(!bUserInteraction)
     {
         while(1)
         {
@@ -535,12 +535,14 @@ void main_task(uint32_t param)
             }
         }
     }
+    */
+    bUserInteraction = TRUE;
     if(bUserInteraction)
     {
         while(1)
         {
-            (void)OSA_EventWait(gTaskEvent, gEventsAll_c, FALSE, osaWaitForever_c ,&gTaskEventFlags);
-            HandleEvents(gTaskEventFlags);
+            //(void)OSA_EventWait(gTaskEvent, gEventsAll_c, FALSE, osaWaitForever_c ,&gTaskEventFlags);
+            //HandleEvents(gTaskEventFlags);
             SerialUIStateMachine();
             if (gUseRtos_c == 0)
             {
@@ -604,7 +606,7 @@ void SerialUIStateMachine(void)
         aspTestRequestMsg.msgData.aspXtalTrim.trim = xtalTrimValue;
         (void)APP_ASP_SapHandler(&aspTestRequestMsg, 0);
 #endif
-        PrintTestParameters(TRUE);
+        //PrintTestParameters(TRUE);
         evTestParameters = FALSE;
     }
     switch(connState)
@@ -613,7 +615,9 @@ void SerialUIStateMachine(void)
         PrintMenu(cu8MainMenu, mAppSer);
         PrintTestParameters(FALSE);
         shortCutsEnabled = TRUE;
-        connState = gConnSelectTest_c;
+        rangeTxState = gRangeTxStateInit_c;
+        rangeRxState = gRangeRxStateInit_c;
+    	connState = gConnRangeState_c;
         break;
     case gConnSelectTest_c:
     	rangeTxState = gRangeTxStateInit_c;
